@@ -5,7 +5,6 @@
 ### Requirements
 ```
 flet
-flet_route
 SQLAlchemy
 sqlmodel
 ```
