@@ -16,6 +16,7 @@ class Posts(SQLModel, table=True):
     id: Optional[int] = Field(primary_key=True, default=None, nullable=False)
     title: str = Field(nullable=False)
     post: str = Field(nullable=False)
+    notice: bool = Field(default=False)
 
     def add(self, title, post):
         new_post = Posts(title=title, post=post)
