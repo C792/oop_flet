@@ -7,8 +7,8 @@ def IndexView(page: ft.Page, params: Params, basket: Basket):
     if basket.get("posts") == None:
         basket.posts = Posts()
 
-    def delete_post(id):
-        basket.posts.delete(id=id)
+    def delete_post(i):
+        basket.posts.delete(id=i)
         get_all_posts()
         page.update()
 
@@ -50,6 +50,14 @@ def IndexView(page: ft.Page, params: Params, basket: Basket):
                             height=70,
                             border_radius=10,
                             on_click=lambda e, id=i.id: page.go(f"/posts/{id}"),
+                        ),
+                        ft.Text(
+                            max_lines=1,
+                            overflow=ft.TextOverflow.CLIP,
+                            top=50,
+                            left=60,
+                            value=i.created_at.strftime("%Y-%m-%d %H:%M"),
+                            size=10,
                         ),
                         ft.IconButton(
                             icon=ft.icons.DELETE,
