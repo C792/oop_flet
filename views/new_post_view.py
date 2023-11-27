@@ -10,15 +10,17 @@ def NewPostView(page: ft.Page, params: Params, basket: Basket):
         basket.posts.add(
             title=ref_title.current.value,
             post=ref_text.current.value,
+            notice=c.value,
         )
         page.go("/")
-
+    c = ft.Checkbox(label="Notice", disabled=False)
     return ft.View(
         "/new_post/",
         controls=[
             ft.AppBar(
                 title=ft.Text("New Post"),
                 actions=[
+                    c,
                     ft.IconButton(ft.icons.SAVE, on_click=save_post),
                 ],
             ),

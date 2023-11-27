@@ -20,11 +20,12 @@ class Posts(SQLModel, table=True):
     title: str = Field(nullable=False)
     post: str = Field(nullable=False)
     notice: bool = Field(default=False)
+    author: str = Field(default="Anonymous", nullable=False)
     comment: Optional["Comments"] = Relationship(back_populates="post")
-    created_at: datetime = Field(default=datetime.utcnow(), nullable=False)
+    created_at: datetime = Field(default=datetime.now(), nullable=False)
 
-    def add(self, title, post):
-        new_post = Posts(title=title, post=post)
+    def add(self, title, post, notice):
+        new_post = Posts(title=title, post=post, notice=notice)
         with Session(engine) as session:
             session.add(new_post)
             session.commit()
@@ -65,6 +66,49 @@ class Posts(SQLModel, table=True):
             session.commit()
             return True
 
+class Users(SQLModel, table=True):
+    id: Optional[int] = Field(primary_key=True, default=None, nullable=False)
+    username: str = Field(nullable=False)
+    password: str = Field(nullable=False)
+    reg_at: datetime = Field(default=datetime.now(), nullable=False)
+
+    def add(self, username, password):
+        new_user = Users(username=username, password=password)
+        with Session(engine) as session:
+            session.add(new_user)
+            session.commit()
+            return True
+
+    def get_by_username(self, username):
+        with Session(engine) as session:
+            statement = select(Users).where(Users.username == username)
+            results = session.exec(statement)
+            return results.first()
+
+    def get_by_id(self, id):
+        with Session(engine) as session:
+            statement = select(Users).where(Users.id == id)
+            results = session.exec(statement)
+            return results.first()
+
+    def update(self, id, username, password):
+        with Session(engine) as session:
+            statement = select(Users).where(Users.id == id)
+            results = session.exec(statement)
+            old_user = results.one()
+            old_user.username = username
+            old_user.password = password
+            session.add(old_user)
+            session.commit()
+            return True
+
+    def delete(self, id):
+        with Session(engine) as session:
+            statement = select(Users).where(Users.id == id)
+            results = session.exec(statement).first()
+            session.delete(results)
+            session.commit()
+            return True
 
 class Comments(SQLModel, table=True):
     id: Optional[int] = Field(primary_key=True, default=None, nullable=False)

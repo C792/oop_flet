@@ -1,11 +1,13 @@
 import flet as ft
 from views.routing import Params, Basket
-from db import Posts
+from db import Posts, Users
 
 
 def IndexView(page: ft.Page, params: Params, basket: Basket):
     if basket.get("posts") == None:
         basket.posts = Posts()
+    if basket.get("users") == None:
+        basket.users = Users()
 
     def delete_post(i):
         basket.posts.delete(id=i)
@@ -70,7 +72,30 @@ def IndexView(page: ft.Page, params: Params, basket: Basket):
             )
 
     get_all_posts()
-
+    if basket.get("user") == None:
+        return ft.View(
+            "/",
+            controls=[
+                ft.AppBar(
+                    # leading=ft.Icon(ft.icons.FORMAT_QUOTE_OUTLINED, size=60),
+                    leading=ft.Icon(ft.icons.ACCOUNT_BALANCE, size=50),
+                    # leading=ft.Icon(ft.icons.API_OUTLINED, size=50),
+                    leading_width=60,
+                    title=ft.Text("App"),
+                    center_title=False,
+                    actions=[
+                        ft.IconButton(
+                            ft.icons.POST_ADD, on_click=lambda e: page.go("/new_post/")
+                        ),
+                        ft.IconButton(
+                            ft.icons.ACCOUNT_CIRCLE, on_click=lambda e: page.go("/login/")
+                        )
+                    ],
+                ),
+                ft.Column(row),
+            ],
+            scroll="auto",
+        )
     return ft.View(
         "/",
         controls=[
@@ -85,9 +110,9 @@ def IndexView(page: ft.Page, params: Params, basket: Basket):
                     ft.IconButton(
                         ft.icons.POST_ADD, on_click=lambda e: page.go("/new_post/")
                     ),
+                    ft.Text(basket.user),
                 ],
             ),
-            ft.Column(row),
         ],
         scroll="auto",
     )
