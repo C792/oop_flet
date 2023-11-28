@@ -4,11 +4,6 @@ from db import Posts, Users
 
 
 def IndexView(page: ft.Page, params: Params, basket: Basket):
-    if basket.get("posts") == None:
-        basket.posts = Posts()
-    if basket.get("users") == None:
-        basket.users = Users()
-
     def delete_post(i):
         basket.posts.delete(id=i)
         get_all_posts()
@@ -78,16 +73,17 @@ def IndexView(page: ft.Page, params: Params, basket: Basket):
         page.go("/")
     if basket.get("user") == None:
         return ft.View(
-            "/",
+            "/all/",
             controls=[
                 ft.AppBar(
                     # leading=ft.Icon(ft.icons.FORMAT_QUOTE_OUTLINED, size=60),
                     leading=ft.Icon(ft.icons.ACCOUNT_BALANCE, size=50),
                     # leading=ft.Icon(ft.icons.API_OUTLINED, size=50),
                     leading_width=60,
-                    title=ft.Text("App"),
+                    title=ft.Text("DSHub"),
                     center_title=False,
                     actions=[
+                        ft.IconButton(ft.icons.HOME, on_click=lambda e: page.go("/")),
                         ft.IconButton(
                             ft.icons.POST_ADD, on_click=lambda e: page.go("/new_post/")
                         ),
@@ -101,20 +97,21 @@ def IndexView(page: ft.Page, params: Params, basket: Basket):
         )
     get_all_posts()
     return ft.View(
-        "/",
+        "/all/",
         controls=[
             ft.AppBar(
                 # leading=ft.Icon(ft.icons.FORMAT_QUOTE_OUTLINED, size=60),
                 leading=ft.Icon(ft.icons.ACCOUNT_BALANCE, size=50),
                 # leading=ft.Icon(ft.icons.API_OUTLINED, size=50),
                 leading_width=60,
-                title=ft.Text("App"),
+                title=ft.Text("DSHub"),
                 center_title=False,
                 actions=[
+                    ft.IconButton(ft.icons.HOME, on_click=lambda e: page.go("/")),
                     ft.IconButton(
                         ft.icons.POST_ADD, on_click=lambda e: page.go("/new_post/")
                     ),
-                    ft.Text(f"Loggined in as {basket.user} "),
+                    ft.Text(f"Loggined in as {basket.user} " + ("(admin)" if basket.role == "admin" else "(user)")),
                     ft.IconButton(
                         ft.icons.LOGOUT, on_click=logout
                     )
