@@ -18,7 +18,11 @@ def Login(page: ft.Page, params: Params, basket: Basket):
             Alert.value = "Please check ID or Password"
             page.update()
         else:
+            basket.user = ref_username.current.value
+            basket.role = pw.role
+            page.update()
             page.go("/")
+            page.update()
                 
 
     return ft.View(
@@ -51,12 +55,14 @@ def Login(page: ft.Page, params: Params, basket: Basket):
 def Register(page: ft.Page, params: Params, basket: Basket):
     ref_username = ft.Ref[ft.TextField]()
     ref_password = ft.Ref[ft.TextField]()
-
+    c = ft.Checkbox(label="Admin", disabled=False)
     def register(e):
         Users().add(
             username=ref_username.current.value,
             password=ref_password.current.value,
+            role="admin" if c.value else "user",
         )
+        page.go("/login/")
 
     return ft.View(
         "/register/",
@@ -65,7 +71,6 @@ def Register(page: ft.Page, params: Params, basket: Basket):
                 title=ft.Text("Register"),
                 actions=[
                     ft.IconButton(ft.icons.SAVE, on_click=register),
-                    ft.IconButton(ft.icons.LOGIN, on_click=lambda e: page.go("/login/")),
                 ],
             ),
             ft.TextField(
@@ -80,6 +85,7 @@ def Register(page: ft.Page, params: Params, basket: Basket):
                 min_lines=1,
                 max_lines=2,
             ),
+            c,
         ],
         scroll="auto",
     )

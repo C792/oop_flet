@@ -13,7 +13,7 @@ def NewPostView(page: ft.Page, params: Params, basket: Basket):
             notice=c.value,
         )
         page.go("/")
-    c = ft.Checkbox(label="Notice", disabled=False)
+    c = ft.Checkbox(label="Notice", disabled=False if basket.role == "admin" else True)
     return ft.View(
         "/new_post/",
         controls=[

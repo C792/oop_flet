@@ -70,8 +70,12 @@ def IndexView(page: ft.Page, params: Params, basket: Basket):
                     ]
                 )
             )
-
-    get_all_posts()
+    def logout(e):
+        basket.user = None
+        basket.role = None
+        page.update()
+        page.go("/login/")
+        page.go("/")
     if basket.get("user") == None:
         return ft.View(
             "/",
@@ -92,10 +96,10 @@ def IndexView(page: ft.Page, params: Params, basket: Basket):
                         )
                     ],
                 ),
-                ft.Column(row),
             ],
             scroll="auto",
         )
+    get_all_posts()
     return ft.View(
         "/",
         controls=[
@@ -110,9 +114,13 @@ def IndexView(page: ft.Page, params: Params, basket: Basket):
                     ft.IconButton(
                         ft.icons.POST_ADD, on_click=lambda e: page.go("/new_post/")
                     ),
-                    ft.Text(basket.user),
+                    ft.Text(f"Loggined in as {basket.user} "),
+                    ft.IconButton(
+                        ft.icons.LOGOUT, on_click=logout
+                    )
                 ],
             ),
+            ft.Column(row),
         ],
         scroll="auto",
     )

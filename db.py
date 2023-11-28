@@ -70,10 +70,11 @@ class Users(SQLModel, table=True):
     id: Optional[int] = Field(primary_key=True, default=None, nullable=False)
     username: str = Field(nullable=False)
     password: str = Field(nullable=False)
+    role: str = Field(default="user", nullable=False)
     reg_at: datetime = Field(default=datetime.now(), nullable=False)
 
-    def add(self, username, password):
-        new_user = Users(username=username, password=password)
+    def add(self, username, password, role):
+        new_user = Users(username=username, password=password, role=role)
         with Session(engine) as session:
             session.add(new_user)
             session.commit()
