@@ -17,9 +17,19 @@ def PostsView(page: ft.Page, params: Params, basket: Basket):
             db.Comments,
             comment=ref_comment.current.value,
             post_id=params.id,
+            author=basket.user if basket.user else "Anonymous",
         ),
         page.go("/")
         page.go(f"/posts/{params.id}")
+
+    def deletebutton(comment):
+        if basket.role == "admin" or basket.user == comment.author:
+            return ft.IconButton(
+                icon=ft.icons.DELETE,
+                on_click=lambda e, id=comment.id:delete_comment(id),
+            )
+        else:
+            return ft.Container()
 
     def delete_comment(i):
         db.Comments.delete(
@@ -81,13 +91,14 @@ def PostsView(page: ft.Page, params: Params, basket: Basket):
                                 overflow=ft.TextOverflow.ELLIPSIS,
                             ),
                             ft.Text(
+                                value=comment.author,
+                                size=10,
+                            ),
+                            ft.Text(
                                 value=comment.created_at.strftime("%Y-%m-%d %H:%M"),
                                 size=10,
                             ),
-                            ft.IconButton(
-                                icon=ft.icons.DELETE,
-                                on_click=lambda e, id=comment.id:delete_comment(id),
-                            ),
+                            deletebutton(comment),
                         ]
                     )
                     for comment in comments
