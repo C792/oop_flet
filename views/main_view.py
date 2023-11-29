@@ -8,13 +8,80 @@ def MainView(page: ft.Page, params: Params, basket: Basket):
         basket.posts = Posts()
     if basket.get("users") == None:
         basket.users = Users()
-
     def logout(e):
         basket.user = None
         basket.role = None
         page.update()
         page.go("/login/")
         page.go("/")
+    cnt = [0, 0]
+    for i in basket.posts.get_all():
+        if i.notice:
+            cnt[0] += 1
+        else:
+            cnt[1] += 1
+    row = []
+    row.append(
+        ft.Stack(
+            [
+                ft.Container(
+                    height=70,
+                    border_radius=10,
+                    border=ft.Border(
+                        top=ft.BorderSide(width=1),
+                        bottom=ft.BorderSide(width=1),
+                        left=ft.BorderSide(width=1),
+                        right=ft.BorderSide(width=1),
+                    ),
+                ),
+                ft.Container(content=ft.Icon(ft.icons.INFO, size=30), top=20, left=15),
+                ft.Text(
+                    max_lines=1,
+                    overflow=ft.TextOverflow.CLIP,
+                    top=20,
+                    left=60,
+                    value=f"notices({str(cnt[0])})",
+                    size=20,
+                ),
+                ft.Container(
+                    height=70,
+                    border_radius=10,
+                    on_click=lambda e: page.go(f"/notices/"),
+                ),
+            ]
+        )
+    )
+    row.append(
+        ft.Stack(
+            [
+                ft.Container(
+                    height=70,
+                    border_radius=10,
+                    border=ft.Border(
+                        top=ft.BorderSide(width=1),
+                        bottom=ft.BorderSide(width=1),
+                        left=ft.BorderSide(width=1),
+                        right=ft.BorderSide(width=1),
+                    ),
+                ),
+                ft.Container(content=ft.Icon(ft.icons.NOTE, size=50), top=10, left=5),
+                ft.Text(
+                    max_lines=1,
+                    overflow=ft.TextOverflow.CLIP,
+                    top=20,
+                    left=60,
+                    value=f"posts({str(cnt[1])})",
+                    size=20,
+                ),
+                ft.Container(
+                    height=70,
+                    border_radius=10,
+                    on_click=lambda e: page.go(f"/posts/"),
+                ),
+            ]
+        )
+    )
+            
     if basket.get("user") == None:
         return ft.View(
             "/",
@@ -81,7 +148,7 @@ def MainView(page: ft.Page, params: Params, basket: Basket):
                     ft.Text(
                         spans=[
                             ft.TextSpan(
-                                "\n\nWelcome to DSHub!",
+                                "\n\nWelcome to DSHub!\n\n",
                                 ft.TextStyle(
                                     size=40,
                                     weight=ft.FontWeight.BOLD,
@@ -97,6 +164,7 @@ def MainView(page: ft.Page, params: Params, basket: Basket):
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
             ),
+            ft.Column(row),
         ],
         scroll="auto",
     )
