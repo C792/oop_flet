@@ -1,6 +1,6 @@
 ### DSHS OOP Course Project
 
-# Forum Service using Flet
+# DSHub - Forum Service using Flet
 
 ### Requirements
 ```
