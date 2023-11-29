@@ -11,6 +11,7 @@ def NewPostView(page: ft.Page, params: Params, basket: Basket):
             title=ref_title.current.value,
             post=ref_text.current.value,
             notice=c.value if c.disabled == False else False,
+            author=basket.user if basket.user else "Anonymous",
         )
         page.go("/")
     c = ft.Checkbox(label="Notice", disabled=False if basket.get("role") == "admin" else True)

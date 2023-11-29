@@ -24,8 +24,8 @@ class Posts(SQLModel, table=True):
     comment: Optional["Comments"] = Relationship(back_populates="post")
     created_at: datetime = Field(default=datetime.now(), nullable=False)
 
-    def add(self, title, post, notice):
-        new_post = Posts(title=title, post=post, notice=notice)
+    def add(self, title, post, notice, author):
+        new_post = Posts(title=title, post=post, notice=notice, author=author)
         with Session(engine) as session:
             session.add(new_post)
             session.commit()

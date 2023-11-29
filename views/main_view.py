@@ -76,7 +76,7 @@ def MainView(page: ft.Page, params: Params, basket: Basket):
                 ft.Container(
                     height=70,
                     border_radius=10,
-                    on_click=lambda e: page.go(f"/posts/"),
+                    on_click=lambda e: page.go(f"/normalposts/"),
                 ),
             ]
         )

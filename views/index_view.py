@@ -4,6 +4,17 @@ from db import Posts, Users
 
 
 def IndexView(page: ft.Page, params: Params, basket: Basket):
+    def deletebutton(i):
+        if basket.role == "admin" or basket.user == i.author:
+            return ft.IconButton(
+                icon=ft.icons.DELETE,
+                right=5,
+                top=10,
+                on_click=lambda e, id=i.id: delete_post(id),
+            )
+        else:
+            return ft.Container()
+
     def delete_post(i):
         basket.posts.delete(id=i)
         get_all_posts()
@@ -53,15 +64,18 @@ def IndexView(page: ft.Page, params: Params, basket: Basket):
                             overflow=ft.TextOverflow.CLIP,
                             top=50,
                             left=60,
+                            value=i.author,
+                            size=10,
+                        ),
+                        ft.Text(
+                            max_lines=1,
+                            overflow=ft.TextOverflow.CLIP,
+                            top=50,
+                            left=160,
                             value=i.created_at.strftime("%Y-%m-%d %H:%M"),
                             size=10,
                         ),
-                        ft.IconButton(
-                            icon=ft.icons.DELETE,
-                            right=5,
-                            top=10,
-                            on_click=lambda e, id=i.id: delete_post(id),
-                        ),
+                        deletebutton(i),
                     ]
                 )
             )
