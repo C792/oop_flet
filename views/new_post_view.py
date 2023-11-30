@@ -19,7 +19,7 @@ def NewPostView(page: ft.Page, params: Params, basket: Basket):
         "/new_post/",
         controls=[
             ft.AppBar(
-                title=ft.Text("New Post"),
+                title=ft.Text("DSHub - New Post"),
                 actions=[
                     c,
                     ft.IconButton(ft.icons.SAVE, on_click=save_post),

@@ -43,7 +43,9 @@ def PostsView(page: ft.Page, params: Params, basket: Basket):
         f"/posts/{params.id}",
         controls=[
             ft.AppBar(
-                title=ft.Text("Post"),
+                # leading=ft.Icon(ft.icons.ACCOUNT_BALANCE, size=50),
+                # leading_width=60,
+                title=ft.Text("DSHub"),
                 actions=[
                     ft.IconButton(
                         icon=ft.icons.SHARE,

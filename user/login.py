@@ -44,6 +44,8 @@ def Login(page: ft.Page, params: Params, basket: Basket):
             ft.TextField(
                 ref=ref_password,
                 label="Password",
+                password=True,
+                can_reveal_password=True,
                 min_lines=1,
                 max_lines=2,
             ),
@@ -82,6 +84,8 @@ def Register(page: ft.Page, params: Params, basket: Basket):
             ft.TextField(
                 ref=ref_password,
                 label="Password",
+                password=True,
+                can_reveal_password=True,
                 min_lines=1,
                 max_lines=2,
             ),
