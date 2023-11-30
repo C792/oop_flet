@@ -140,5 +140,46 @@ class Comments(SQLModel, table=True):
             session.commit()
             return True
 
+class Categories(SQLModel, table=True):
+    id: Optional[int] = Field(primary_key=True, default=None, nullable=False)
+    category: str = Field(nullable=False)
+    post_id: int = Field(default=0, nullable=False)
+    def add(self, category, post_id):
+        new_category = Categories(category=category, post_id=post_id)
+        with Session(engine) as session:
+            session.add(new_category)
+            session.commit()
+            return True
+
+    def get_all(self):
+        with Session(engine) as session:
+            statement = select(Categories)
+            results = session.exec(statement)
+            return results.all()
+
+    def get_by_id(self, id):
+        with Session(engine) as session:
+            statement = select(Categories).where(Categories.id == id)
+            results = session.exec(statement)
+            return results.first()
+
+    def update(self, id, category):
+        with Session(engine) as session:
+            statement = select(Categories).where(Categories.id == id)
+            results = session.exec(statement)
+            old_category = results.one()
+            old_category.category = category
+            session.add(old_category)
+            session.commit()
+            return True
+
+    def delete(self, id):
+        with Session(engine) as session:
+            statement = select(Categories).where(Categories.id == id)
+            results = session.exec(statement).first()
+            session.delete(results)
+            session.commit()
+            return True
+
 def create_tables():
     SQLModel.metadata.create_all(engine)
