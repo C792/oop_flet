@@ -1,7 +1,5 @@
 import flet as ft
 from views.routing import Params, Basket
-from db import Posts, Users
-
 
 def IndexView(page: ft.Page, params: Params, basket: Basket):
     def deletebutton(i):
@@ -85,30 +83,6 @@ def IndexView(page: ft.Page, params: Params, basket: Basket):
         page.update()
         page.go("/login/")
         page.go("/")
-    if basket.get("user") == None:
-        return ft.View(
-            "/all/",
-            controls=[
-                ft.AppBar(
-                    # leading=ft.Icon(ft.icons.FORMAT_QUOTE_OUTLINED, size=60),
-                    leading=ft.Icon(ft.icons.ACCOUNT_BALANCE, size=50),
-                    # leading=ft.Icon(ft.icons.API_OUTLINED, size=50),
-                    leading_width=60,
-                    title=ft.Text("DSHub"),
-                    center_title=False,
-                    actions=[
-                        ft.IconButton(ft.icons.HOME, on_click=lambda e: page.go("/")),
-                        ft.IconButton(
-                            ft.icons.POST_ADD, on_click=lambda e: page.go("/new_post/")
-                        ),
-                        ft.IconButton(
-                            ft.icons.ACCOUNT_CIRCLE, on_click=lambda e: page.go("/login/")
-                        )
-                    ],
-                ),
-            ],
-            scroll="auto",
-        )
     get_all_posts()
     return ft.View(
         "/all/",
@@ -130,6 +104,35 @@ def IndexView(page: ft.Page, params: Params, basket: Basket):
                         ft.icons.LOGOUT, on_click=logout
                     )
                 ],
+            ),
+            ft.Column(
+                controls=[
+                    ft.Row(
+                        controls=[
+                            ft.Container(width=10),
+                            ft.IconButton(
+                                icon=ft.icons.HOME,
+                                on_click=lambda e: page.go("/"),
+                            ),
+                            ft.Container(width=10),
+                            ft.IconButton(
+                                icon=ft.icons.INFO,
+                                on_click=lambda e: page.go("/notices/"),
+                            ),
+                            ft.Container(width=10),
+                            ft.IconButton(
+                                icon=ft.icons.NOTE,
+                                on_click=lambda e: page.go("/normalposts/"),
+                            ),
+                            ft.Container(width=10),
+                            ft.IconButton(
+                                icon=ft.icons.LIST,
+                                on_click=lambda e: page.go("/all/"),
+                            ),
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER,
+                    ),
+                ],                    
             ),
             ft.Column(row),
         ],

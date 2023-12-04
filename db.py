@@ -22,6 +22,7 @@ class Posts(SQLModel, table=True):
     notice: bool = Field(default=False)
     author: str = Field(default="Anonymous", nullable=False)
     comment: Optional["Comments"] = Relationship(back_populates="post")
+    category: Optional["Categories"] = Relationship(back_populates="post")
     created_at: datetime = Field(default=datetime.now(), nullable=False)
 
     def add(self, title, post, notice, author):
@@ -143,7 +144,8 @@ class Comments(SQLModel, table=True):
 class Categories(SQLModel, table=True):
     id: Optional[int] = Field(primary_key=True, default=None, nullable=False)
     category: str = Field(nullable=False)
-    post_id: int = Field(default=0, nullable=False)
+    post: Posts = Relationship(back_populates="category")
+    post_id: int = Field(nullable=False, foreign_key="posts.id")
     def add(self, category, post_id):
         new_category = Categories(category=category, post_id=post_id)
         with Session(engine) as session:

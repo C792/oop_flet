@@ -1,13 +1,15 @@
 import flet as ft
 from views.routing import Params, Basket
-from db import Posts, Users
+from db import Posts, Users, Categories
 
 
-def MainView(page: ft.Page, params: Params, basket: Basket):
+def Hub(page: ft.Page, params: Params, basket: Basket):
     if basket.get("posts") == None:
         basket.posts = Posts()
     if basket.get("users") == None:
         basket.users = Users()
+    if basket.get("categories") == None:
+        basket.categories = Categories()
     def logout(e):
         basket.user = None
         basket.role = None
@@ -77,6 +79,36 @@ def MainView(page: ft.Page, params: Params, basket: Basket):
                     height=70,
                     border_radius=10,
                     on_click=lambda e: page.go(f"/normalposts/"),
+                ),
+            ]
+        )
+    )
+    row.append(
+        ft.Stack(
+            [
+                ft.Container(
+                    height=70,
+                    border_radius=10,
+                    border=ft.Border(
+                        top=ft.BorderSide(width=1),
+                        bottom=ft.BorderSide(width=1),
+                        left=ft.BorderSide(width=1),
+                        right=ft.BorderSide(width=1),
+                    ),
+                ),
+                ft.Container(content=ft.Icon(ft.icons.LIST, size=50), top=10, left=5),
+                ft.Text(
+                    max_lines=1,
+                    overflow=ft.TextOverflow.CLIP,
+                    top=20,
+                    left=60,
+                    value=f"all posts({str(cnt[0] + cnt[1])})",
+                    size=20,
+                ),
+                ft.Container(
+                    height=70,
+                    border_radius=10,
+                    on_click=lambda e: page.go(f"/all/"),
                 ),
             ]
         )

@@ -1,7 +1,5 @@
 import flet as ft
 from views.routing import Params, Basket
-from db import Posts, Users
-
 
 def NoticeView(page: ft.Page, params: Params, basket: Basket):
     def deletebutton(i):
@@ -130,6 +128,35 @@ def NoticeView(page: ft.Page, params: Params, basket: Basket):
                         ft.icons.LOGOUT, on_click=logout
                     )
                 ],
+            ),
+            ft.Column(
+                controls=[
+                    ft.Row(
+                        controls=[
+                            ft.Container(width=10),
+                            ft.IconButton(
+                                icon=ft.icons.HOME,
+                                on_click=lambda e: page.go("/"),
+                            ),
+                            ft.Container(width=10),
+                            ft.IconButton(
+                                icon=ft.icons.INFO,
+                                on_click=lambda e: page.go("/notices/"),
+                            ),
+                            ft.Container(width=10),
+                            ft.IconButton(
+                                icon=ft.icons.NOTE,
+                                on_click=lambda e: page.go("/normalposts/"),
+                            ),
+                            ft.Container(width=10),
+                            ft.IconButton(
+                                icon=ft.icons.LIST,
+                                on_click=lambda e: page.go("/all/"),
+                            ),
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER,
+                    ),
+                ],                    
             ),
             ft.Column(row),
         ],

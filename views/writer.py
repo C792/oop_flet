@@ -2,7 +2,7 @@ import flet as ft
 from views.routing import Params, Basket
 
 
-def NewPostView(page: ft.Page, params: Params, basket: Basket):
+def Writer(page: ft.Page, params: Params, basket: Basket):
     ref_title = ft.Ref[ft.TextField]()
     ref_text = ft.Ref[ft.TextField]()
 
@@ -12,6 +12,10 @@ def NewPostView(page: ft.Page, params: Params, basket: Basket):
             post=ref_text.current.value,
             notice=c.value if c.disabled == False else False,
             author=basket.user if basket.user else "Anonymous",
+        )
+        basket.categories.add(
+            category="notice" if c.value == True else "post",
+            post_id=len(basket.posts.get_all()),
         )
         page.go("/")
     c = ft.Checkbox(label="Notice", disabled=False if basket.get("role") == "admin" else True)
