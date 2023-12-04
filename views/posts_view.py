@@ -61,7 +61,6 @@ def PostsView(page: ft.Page, params: Params, basket: Basket):
                     size=30,
                 ),
                 ft.Container(height=3),
-                ft.Divider(opacity=0.5),
                 ft.Text(
                     value=f'written by {post.author}, at {post.created_at.strftime("%Y-%m-%d %H:%M")}',
                     size=12,
