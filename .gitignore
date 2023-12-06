@@ -1,5 +1,7 @@
 __pycache__/*
 */__pycache__/*
+*.py[cod]
 __tmp.py
 *.db
 *.sqlite3
+*.toml
