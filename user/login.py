@@ -15,7 +15,7 @@ def Login(page: ft.Page, params: Params, basket: Basket):
     def login(e):
         pw = basket.users.get_by_username(username=ref_username.current.value)
         if not pw or pw.password != ref_password.current.value:
-            Alert.value = "Please check ID or Password"
+            Alert.value = "\nPlease check ID or Password"
             page.update()
         else:
             basket.user = ref_username.current.value
@@ -29,7 +29,7 @@ def Login(page: ft.Page, params: Params, basket: Basket):
         "/login/",
         controls=[
             ft.AppBar(
-                title=ft.Text("Login"),
+                title=ft.Text("DSHub - Login"),
                 actions=[
                     ft.IconButton(ft.icons.SAVE, on_click=login),
                     ft.IconButton(ft.icons.LOGIN, on_click=lambda e: page.go("/register/")),
@@ -70,7 +70,7 @@ def Register(page: ft.Page, params: Params, basket: Basket):
         "/register/",
         controls=[
             ft.AppBar(
-                title=ft.Text("Register"),
+                title=ft.Text("DSHub - Register"),
                 actions=[
                     ft.IconButton(ft.icons.SAVE, on_click=register),
                 ],
