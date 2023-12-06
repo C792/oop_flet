@@ -25,6 +25,7 @@ def Writer(page: ft.Page, params: Params, basket: Basket):
             ft.AppBar(
                 title=ft.Text("DSHub - New Post"),
                 actions=[
+                    ft.IconButton(ft.icons.QUESTION_MARK_ROUNDED, on_click=lambda e: page.go("/new_post/help/")),
                     c,
                     ft.IconButton(ft.icons.SAVE, on_click=save_post),
                 ],
