@@ -61,6 +61,7 @@ class Posts(SQLModel, table=True):
             results = session.exec(statement).all()
             for result in results:
                 session.delete(result)
+            Categories.delete_post_id(Categories, post_id=id)
             statement = select(Posts).where(Posts.id == id)
             results = session.exec(statement).first()
             session.delete(results)
@@ -180,6 +181,15 @@ class Categories(SQLModel, table=True):
             statement = select(Categories).where(Categories.id == id)
             results = session.exec(statement).first()
             session.delete(results)
+            session.commit()
+            return True
+    
+    def delete_post_id(self, post_id):
+        with Session(engine) as session:
+            statement = select(Categories).where(Categories.post_id == post_id)
+            results = session.exec(statement).all()
+            for result in results:
+                session.delete(result)
             session.commit()
             return True
 
