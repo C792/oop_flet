@@ -3,6 +3,7 @@ from views.routing import Routing, path
 from views.index_view import IndexView
 from views.hub import Hub
 from views.writer import Writer
+from views.help_md import Help
 from views.posts_view import PostsView
 from views.notice_view import NoticeView
 from views.normal_view import NormalView
@@ -23,6 +24,7 @@ def main(page: ft.Page):
         path(url="/register/", clear=False, view=Register),
         path(url="/notices/", clear=False, view=NoticeView),
         path(url="/normalposts/", clear=False, view=NormalView),
+        path(url="/new_post/help/", clear=False, view=Help),
     ]
 
     Routing(page, app_routes)
