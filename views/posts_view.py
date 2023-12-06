@@ -66,11 +66,13 @@ def PostsView(page: ft.Page, params: Params, basket: Basket):
                     size=12,
                 ),
                 ft.Divider(opacity=0.5),
-                ft.Text(
-                    value=post.post,
-                    size=15,
-                    max_lines=100,
-                    overflow=ft.TextOverflow.ELLIPSIS,
+                ft.Markdown(
+                    post.post,
+                    selectable=False,
+                    extension_set=ft.MarkdownExtensionSet.GITHUB_WEB,
+                    code_theme="atom-one-dark",
+                    code_style=ft.TextStyle(font_family="Consolas"),
+                    on_tap_link=lambda e: page.launch_url(e.data),
                 ),
                 ft.Divider(),
                 ft.Text(
