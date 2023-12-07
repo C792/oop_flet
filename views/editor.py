@@ -1,29 +1,28 @@
 import flet as ft
 from views.routing import Params, Basket
+import db
 
+db.create_tables()
 
-def Writer(page: ft.Page, params: Params, basket: Basket):
+def Editor(page: ft.Page, params: Params, basket: Basket):
+    post = db.Posts.get_by_id(db.Posts, id=params.id)
     ref_title = ft.Ref[ft.TextField]()
     ref_text = ft.Ref[ft.TextField]()
 
     def save_post(e):
-        basket.posts.add(
+        basket.posts.update(
+            id=params.id,
             title=ref_title.current.value,
             post=ref_text.current.value,
             notice=c.value if c.disabled == False else False,
-            author=basket.user if basket.user else "Anonymous",
         )
-        basket.categories.add(
-            category="notice" if c.value == True else "post",
-            post_id=len(basket.posts.get_all()),
-        )
-        page.go(f"/posts/{len(basket.posts.get_all())}")
+        page.go(f"/posts/{params.id}")
     c = ft.Checkbox(label="Notice", disabled=False if basket.get("role") == "admin" else True)
-    return ft.View(
-        "/new_post/",
+    V = ft.View(
+        f"/posts/{params.id}/edit",
         controls=[
             ft.AppBar(
-                title=ft.Text("DSHub - New Post"),
+                title=ft.Text("DSHub - Edit Post"),
                 actions=[
                     ft.IconButton(ft.icons.QUESTION_MARK_ROUNDED, on_click=lambda e: page.go("/new_post/help/")),
                     c,
@@ -47,3 +46,7 @@ def Writer(page: ft.Page, params: Params, basket: Basket):
         ],
         scroll="auto",
     )
+    ref_title.current.value = post.title
+    ref_text.current.value = post.post
+    c.value = post.notice
+    return V

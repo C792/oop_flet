@@ -31,6 +31,15 @@ def PostsView(page: ft.Page, params: Params, basket: Basket):
         else:
             return ft.Container()
 
+    def editbutton():
+        if basket.role == "admin" or basket.user == post.author:
+            return ft.IconButton(
+                icon=ft.icons.EDIT,
+                on_click=lambda e:page.go(f"/posts/{params.id}/edit"),
+            )
+        else:
+            return ft.Container()
+
     def delete_comment(i):
         db.Comments.delete(
             db.Comments,
@@ -51,6 +60,7 @@ def PostsView(page: ft.Page, params: Params, basket: Basket):
                         icon=ft.icons.SHARE,
                         on_click=lambda e: print(f"/posts/{params.id}"),
                     ),
+                    editbutton(),
                 ],
             ),
             ft.Column(

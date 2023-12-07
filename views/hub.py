@@ -126,7 +126,6 @@ def Hub(page: ft.Page, params: Params, basket: Basket):
                     title=ft.Text("DSHub"),
                     center_title=False,
                     actions=[
-                        ft.IconButton(ft.icons.LIST, on_click=lambda e: page.go("/all/")),
                         ft.IconButton(ft.icons.LOGIN, on_click=lambda e: page.go("/login/")),
                     ],
                 ),

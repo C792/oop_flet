@@ -32,7 +32,7 @@ class Posts(SQLModel, table=True):
             session.commit()
             return True
 
-    def update(self, id, title, post):
+    def update(self, id, title, post, notice):
         with Session(engine) as session:
             statement = select(Posts).where(Posts.id == id)
             results = session.exec(statement)

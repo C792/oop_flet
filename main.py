@@ -7,6 +7,7 @@ from views.help_md import Help
 from views.posts_view import PostsView
 from views.notice_view import NoticeView
 from views.normal_view import NormalView
+from views.editor import Editor
 from user.login import Login, Register
 from db import create_tables
 
@@ -20,6 +21,7 @@ def main(page: ft.Page):
         path(url="/all/", clear=True, view=IndexView),
         path(url="/new_post/", clear=False, view=Writer),
         path(url="/posts/:id", clear=False, view=PostsView),
+        path(url="/posts/:id/edit", clear=False, view=Editor),
         path(url="/login/", clear=False, view=Login),
         path(url="/register/", clear=False, view=Register),
         path(url="/notices/", clear=False, view=NoticeView),
