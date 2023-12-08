@@ -39,6 +39,7 @@ class Posts(SQLModel, table=True):
             old_post = results.one()
             old_post.title = title
             old_post.post = post
+            old_post.notice = notice
             session.add(old_post)
             session.commit()
             return True
@@ -119,7 +120,7 @@ class Comments(SQLModel, table=True):
     post_id: int = Field(nullable=False, foreign_key="posts.id")
     post: Posts = Relationship(back_populates="comment")
     author: str = Field(default="Anonymous", nullable=False)
-    created_at: datetime = Field(default=datetime.utcnow(), nullable=False)
+    created_at: datetime = Field(default=datetime.now(), nullable=False)
 
     def add(self, comment, post_id, author):
         new_comment = Comments(comment=comment, post_id=post_id, author=author)

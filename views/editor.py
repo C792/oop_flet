@@ -16,6 +16,7 @@ def Editor(page: ft.Page, params: Params, basket: Basket):
             post=ref_text.current.value,
             notice=c.value if c.disabled == False else False,
         )
+        page.go("/")
         page.go(f"/posts/{params.id}")
     c = ft.Checkbox(label="Notice", disabled=False if basket.get("role") == "admin" else True)
     V = ft.View(

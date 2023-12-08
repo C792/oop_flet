@@ -57,8 +57,19 @@ def Login(page: ft.Page, params: Params, basket: Basket):
 def Register(page: ft.Page, params: Params, basket: Basket):
     ref_username = ft.Ref[ft.TextField]()
     ref_password = ft.Ref[ft.TextField]()
+    Alert = ft.Text(
+        "",
+        size=30,
+        color=ft.colors.WHITE,
+        bgcolor=ft.colors.RED_800,
+        weight=ft.FontWeight.NORMAL,
+    )
     c = ft.Checkbox(label="Admin", disabled=False)
     def register(e):
+        if basket.users.get_by_username(username=ref_username.current.value):
+            Alert.value = "\nUsername already exists"
+            page.update()
+            return
         Users().add(
             username=ref_username.current.value,
             password=ref_password.current.value,
@@ -90,6 +101,7 @@ def Register(page: ft.Page, params: Params, basket: Basket):
                 max_lines=2,
             ),
             c,
+            Alert,
         ],
         scroll="auto",
     )

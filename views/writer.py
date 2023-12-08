@@ -17,7 +17,8 @@ def Writer(page: ft.Page, params: Params, basket: Basket):
             category="notice" if c.value == True else "post",
             post_id=len(basket.posts.get_all()),
         )
-        page.go(f"/posts/{len(basket.posts.get_all())}")
+        page.go("/")
+        page.go(f"/posts/{basket.posts.get_all()[-1].id}")
     c = ft.Checkbox(label="Notice", disabled=False if basket.get("role") == "admin" else True)
     return ft.View(
         "/new_post/",
